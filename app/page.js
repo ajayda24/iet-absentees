@@ -41,11 +41,11 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="flex flex-wrap gap-4 my-10 max-w-xl">
+      <div className="flex flex-wrap justify-center gap-4 my-10 max-w-xl">
         {studentsArray.map((student) => (
           <div
             key={student}
-            className={`w-20 h-20 border border-black flex items-center justify-center ${
+            className={`w-16 h-16 border border-black flex items-center justify-center ${
               findAbsentee(student)
                 ? "bg-red-500 text-white"
                 : "bg-white text-black"
