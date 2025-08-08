@@ -37,19 +37,19 @@ export default function StudentCard({
 
   return (
     <Card
-      className={`transition-all duration-200 ${getStatusColor(status)}`}
+      className={`transition-all duration-200 px-3 ${getStatusColor(status)}`}
       onClick={() => toggleStatus(studentId)}
     >
-      <CardContent className="p-3">
-        <div className="flex items-center justify-between mb-3">
+      <div className="p-3 w-full">
+        <div className="flex items-center gap-2 mb-2">
           <p className="text-lg ">{studentId}</p>
           {getStatusIcon(status)}
         </div>
 
-        <div className="text-xs text-gray-500 mb-3">
+        <div className="text-xs text-center text-gray-500">
           {selectedSemester} • {selectedDepartment}
         </div>
-      </CardContent>
+      </div>
     </Card>
   );
 }

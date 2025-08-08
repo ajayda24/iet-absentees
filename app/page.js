@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center p-4 py-6">
       <div className="max-w-sm w-full flex flex-col gap-3">
-        <h1 className='text-center font-thin text-xxl'>IET Absentees</h1>
+        <h1 className='text-center font-light text-xl'>IET Absentees</h1>
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="department">Select Semester</Label>
           <Select
