@@ -41,14 +41,14 @@ export default function StudentCard({
       onClick={() => toggleStatus(studentId)}
     >
       <div className="p-3 w-full">
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2">
           <p className="text-lg ">{studentId}</p>
           {getStatusIcon(status)}
         </div>
 
-        <div className="text-xs text-center text-gray-500">
+        {/* <div className="text-xs text-center text-gray-500">
           {selectedSemester} • {selectedDepartment}
-        </div>
+        </div> */}
       </div>
     </Card>
   );
