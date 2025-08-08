@@ -1,9 +1,7 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { User, UserCheck, UserX } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { UserCheck, UserX } from "lucide-react";
 
 export default function StudentCard({
   studentId,
@@ -19,8 +17,8 @@ export default function StudentCard({
         return <UserCheck className="h-5 w-5 text-green-600" />;
       case "absent":
         return <UserX className="h-5 w-5 text-red-600" />;
-      default:
-        return <User className="h-5 w-5 text-gray-400" />;
+      // default:
+      //   return <User className="h-5 w-5 text-gray-400" />;
     }
   };
 
@@ -37,10 +35,10 @@ export default function StudentCard({
 
   return (
     <Card
-      className={`transition-all duration-200 px-3 ${getStatusColor(status)}`}
+      className={`transition-all duration-150 p-3 max-w-24 w-full flex justify-center items-center ${getStatusColor(status)}`}
       onClick={() => toggleStatus(studentId)}
     >
-      <div className="p-3 w-full">
+      {/* <div className="p-3 w-full"> */}
         <div className="flex items-center gap-2">
           <p className="text-lg ">{studentId}</p>
           {getStatusIcon(status)}
@@ -49,7 +47,7 @@ export default function StudentCard({
         {/* <div className="text-xs text-center text-gray-500">
           {selectedSemester} • {selectedDepartment}
         </div> */}
-      </div>
+      {/* </div> */}
     </Card>
   );
 }

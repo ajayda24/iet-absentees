@@ -133,7 +133,7 @@ export default function Home() {
             {selectedSemester} - {selectedDepartment}
           </h3>
           <h3>Absentees : {absentees.join(", ")}</h3>
-          <Button onClick={copyText}>Copy text</Button>
+          <Button className=' text-sm font-light' onClick={copyText}>Copy to Clipboard</Button>
         </div>
       )}
     </div>
