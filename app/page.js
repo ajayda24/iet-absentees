@@ -12,15 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { toast } from "sonner";
+
 import StudentCard from "@/components/StudentCard";
+import { Card } from "@/components/ui/card";
 
 export default function Home() {
   const [totalStudents, setTotalStudents] = useState("");
@@ -37,7 +32,7 @@ export default function Home() {
 
   const currentDate = new Date();
 
-  const day = String(currentDate.getDate()).padStart(2, "0"); 
+  const day = String(currentDate.getDate()).padStart(2, "0");
   const month = String(currentDate.getMonth() + 1).padStart(2, "0");
   const year = currentDate.getFullYear();
 
@@ -48,21 +43,34 @@ export default function Home() {
       ", "
     )}`;
     navigator.clipboard.writeText(textToCopy);
+    toast.success("Copied to clipboard", {
+      position: "top-right",
+      duration: 2000,
+    });
+  };
+
+  const copyRollNoOnly = () => {
+    const textToCopy = `${absentees.join(", ")}`;
+    navigator.clipboard.writeText(textToCopy);
+    toast.success("Copied Roll No. only.", {
+      position: "top-right",
+      duration: 2000,
+    });
   };
 
   const toggleStatus = (id) => {
     setAbsentees((prev) => {
       const newAbsentees = prev.includes(id)
         ? prev.filter((absentId) => absentId !== id)
-        : [...prev, id]; 
+        : [...prev, id];
 
-      return newAbsentees.sort((a, b) => a - b)
+      return newAbsentees.sort((a, b) => a - b);
     });
   };
   return (
     <div className="flex flex-col items-center p-4 py-6">
       <div className="max-w-sm w-full flex flex-col gap-3">
-        <h1 className='text-center font-light text-xl'>IET Absentees</h1>
+        <h1 className="text-center font-light text-xl">IET Absentees</h1>
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="department">Select Semester</Label>
           <Select
@@ -110,31 +118,42 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-4 my-10 max-w-xl">
-        {selectedDepartment && selectedSemester && studentsArray.map((student) => {
-          const isAbsent = absentees.includes(student.id);
-          return (
-            <StudentCard
-              key={student.id}
-              studentId={student.id}
-              status={isAbsent ? "absent" : "present"}
-              toggleStatus={toggleStatus}
-              selectedDepartment={selectedDepartment}
-              selectedSemester={selectedSemester}
-            />
-          );
-        })}
+        {selectedDepartment &&
+          selectedSemester &&
+          studentsArray.map((student) => {
+            const isAbsent = absentees.includes(student.id);
+            return (
+              <StudentCard
+                key={student.id}
+                studentId={student.id}
+                status={isAbsent ? "absent" : "present"}
+                toggleStatus={toggleStatus}
+                selectedDepartment={selectedDepartment}
+                selectedSemester={selectedSemester}
+              />
+            );
+          })}
       </div>
 
       {absentees.length > 0 && (
-        <div className="max-w-sm w-full flex flex-col gap-2">
-          <h2>{`Today's Absentees`}</h2>
-          <h3>Date : {formattedDate}</h3>
-          <h3>
-            {selectedSemester} - {selectedDepartment}
-          </h3>
-          <h3>Absentees : {absentees.join(", ")}</h3>
-          <Button className=' text-sm font-light' onClick={copyText}>Copy to Clipboard</Button>
-        </div>
+        <Card
+          className={`transition-all duration-150 p-3 max-w-sm w-full flex justify-center items-center`}
+        >
+          <div className="w-full flex flex-col gap-3">
+            <h2>{`Today's Absentees`}</h2>
+            <h3>Date : {formattedDate}</h3>
+            <h3>
+              {selectedSemester} - {selectedDepartment}
+            </h3>
+            <h3 onClick={copyRollNoOnly}>Absentees : {absentees.join(", ")}</h3>
+            <Button
+              className=" text-sm font-light border-green-400 bg-green-950"
+              onClick={copyText}
+            >
+              Copy to Clipboard
+            </Button>
+          </div>
+        </Card>
       )}
     </div>
   );
