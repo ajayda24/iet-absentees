@@ -44,7 +44,7 @@ export default function Home() {
   const formattedDate = `${day}-${month}-${year}`;
 
   const copyText = () => {
-    const textToCopy = `<b>Today's Absentees<b>\n
+    const textToCopy = `Today's Absentees
       Date: ${formattedDate}
       ${selectedSemester} - ${selectedDepartment}
       ${selectedHour && `${selectedHour} Hour`} 
