@@ -16,11 +16,15 @@ import { toast } from "sonner";
 
 import StudentCard from "@/components/StudentCard";
 import { Card } from "@/components/ui/card";
+import RadioCardGroup from "@/components/RadioCardGroup";
 
 export default function Home() {
   const [totalStudents, setTotalStudents] = useState("");
   const [selectedSemester, setSelectedSemester] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedHour, setSelectedHour] = useState("");
+  const [markAllPresentClciked, setMarkAllPresentClicked] = useState(false);
+
   const [absentees, setAbsentees] = useState([]);
 
   const studentsArray = Array.from({ length: totalStudents }, (_, i) => ({
@@ -29,6 +33,7 @@ export default function Home() {
   }));
   const departmentsArray = ["IT", "CSE", "EC", "EEE", "ME", "EP", "PT"];
   const semestersArray = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"];
+  const hoursArray = ["1st", "2nd", "3rd", "4th", "5th", "6th"];
 
   const currentDate = new Date();
 
@@ -39,9 +44,12 @@ export default function Home() {
   const formattedDate = `${day}-${month}-${year}`;
 
   const copyText = () => {
-    const textToCopy = `Today's Absentees \nDate: ${formattedDate} \n${selectedSemester} - ${selectedDepartment} \nAbsentees: ${absentees.join(
-      ", "
-    )}`;
+    const textToCopy = `<b>Today's Absentees<b>\n
+      Date: ${formattedDate}
+      ${selectedSemester} - ${selectedDepartment}
+      ${selectedHour && `${selectedHour} Hour`} 
+      Absentees: ${absentees.join(", ")}`;
+
     navigator.clipboard.writeText(textToCopy);
     toast.success("Copied to clipboard", {
       position: "top-right",
@@ -67,57 +75,107 @@ export default function Home() {
       return newAbsentees.sort((a, b) => a - b);
     });
   };
+
+  const semesterOptions = semestersArray.map((s) => ({
+    label: s,
+    value: s,
+  }));
+
+  const departmentOptions = departmentsArray.map((d) => ({
+    label: d,
+    value: d,
+  }));
+
+  const hourOptions = hoursArray.map((h) => ({
+    label: h,
+    value: h,
+  }));
+
+  const markAllPresent = () => {
+    setAbsentees([]);
+    setMarkAllPresentClicked(true);
+    toast.success("All students marked present", {
+      position: "top-right",
+      duration: 1500,
+    });
+  };
+
+  const markAllAbsent = () => {
+    const allAbsent = studentsArray.map((s) => s.id);
+    setAbsentees(allAbsent);
+    toast.error("All students marked absent", {
+      position: "top-right",
+      duration: 1500,
+    });
+  };
+
   return (
     <div className="flex flex-col items-center p-4 py-6">
-      <div className="max-w-sm w-full flex flex-col gap-3">
-        <h1 className="text-center font-light text-xl">IET Absentees</h1>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="department">Select Semester</Label>
-          <Select
-            value={selectedSemester}
-            onValueChange={(value) => setSelectedSemester(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Semester" />
-            </SelectTrigger>
-            <SelectContent>
-              {semestersArray.map((semester) => (
-                <SelectItem key={semester} value={semester}>
-                  {semester}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="department">Select Department</Label>
-          <Select
-            value={selectedDepartment}
-            onValueChange={(value) => setSelectedDepartment(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Department" />
-            </SelectTrigger>
-            <SelectContent>
-              {departmentsArray.map((department) => (
-                <SelectItem key={department} value={department}>
-                  {department}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="totalStudents">Total Students</Label>
+      <div className="max-w-sm w-full flex flex-col gap-6">
+        <h1 className="text-center text-xl">IET Absentees</h1>
+
+        <RadioCardGroup
+          title="Select Semester"
+          options={semesterOptions}
+          value={selectedSemester}
+          onChange={setSelectedSemester}
+        />
+
+        <RadioCardGroup
+          title="Select Department"
+          options={departmentOptions}
+          value={selectedDepartment}
+          onChange={setSelectedDepartment}
+        />
+
+        <RadioCardGroup
+          title="Select Hour"
+          options={hourOptions}
+          value={selectedHour}
+          onChange={setSelectedHour}
+        />
+
+        <div className="grid gap-1.5">
+          <Label>Total Students</Label>
           <Input
             type="number"
-            onChange={(e) => setTotalStudents(e.target.value)}
             value={totalStudents}
-            id="totalStudents"
+            onChange={(e) => setTotalStudents(e.target.value)}
+            disabled={!selectedDepartment || !selectedSemester}
           />
+          {!selectedDepartment || !selectedSemester ? (
+            <p className="text-xs text-muted-foreground">
+              First Select Semester and Department
+            </p>
+          ) : null}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-medium ">Quick Mark</p>
+
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              className="rounded-xl border-green-500 text-green-600 hover:bg-green-500/10"
+              onClick={markAllPresent}
+              disabled={!totalStudents}
+            >
+              Mark All Present
+            </Button>
+
+            <Button
+              variant="outline"
+              className="rounded-xl border-red-500 text-red-600 hover:bg-red-500/10"
+              onClick={markAllAbsent}
+              disabled={!totalStudents}
+            >
+              Mark All Absent
+            </Button>
+          </div>
         </div>
       </div>
-      <div className="flex flex-wrap justify-center gap-4 my-10 max-w-xl">
+
+      <div className="grid grid-cols-4 justify-center gap-3 my-10 max-w-xl">
         {selectedDepartment &&
           selectedSemester &&
           studentsArray.map((student) => {
@@ -135,16 +193,17 @@ export default function Home() {
           })}
       </div>
 
-      {absentees.length > 0 && (
+      {(absentees.length > 0 || markAllPresentClciked) && (
         <Card
           className={`transition-all duration-150 p-3 max-w-sm w-full flex justify-center items-center`}
         >
           <div className="w-full flex flex-col gap-3">
-            <h2>{`Today's Absentees`}</h2>
+            <h2 className="font-medium">{`Today's Absentees`}</h2>
             <h3>Date : {formattedDate}</h3>
             <h3>
               {selectedSemester} - {selectedDepartment}
             </h3>
+            {selectedHour && <h3>Hour : {selectedHour}</h3>}
             <h3 onClick={copyRollNoOnly}>Absentees : {absentees.join(", ")}</h3>
             <Button
               className=" text-sm font-light border-green-400 bg-green-950"
