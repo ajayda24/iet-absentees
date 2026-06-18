@@ -47,7 +47,7 @@ export default function StepWelcome() {
           onClick={nextStep}
           className="w-full py-6 text-base font-medium"
         >
-          Start Marking
+          Get Started
         </Button>
 
         {/* Developer Info */}
