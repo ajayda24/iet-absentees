@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRecentSubjects } from "@/hooks/useRecentSubjects";
-import { X, Plus } from "lucide-react";
+import { X } from "lucide-react";
 
 export default function SubjectSearchDropdown({ value, onChange }) {
   const { recentSubjects } = useRecentSubjects();
@@ -45,12 +45,12 @@ export default function SubjectSearchDropdown({ value, onChange }) {
     setIsOpen(false);
   };
 
-  const handleAddNewSubject = () => {
+  const handleBlur = () => {
+    // Auto-save subject when field loses focus if it's not empty
     if (searchTerm.trim() !== "") {
       addRecentSubject(searchTerm);
-      onChange(searchTerm);
-      setIsOpen(false);
     }
+    setIsOpen(false);
   };
 
   const handleClear = () => {
@@ -76,8 +76,9 @@ export default function SubjectSearchDropdown({ value, onChange }) {
               setIsOpen(true);
             }}
             onFocus={() => setIsOpen(true)}
+            onBlur={handleBlur}
             className="text-sm"
-            autocomplete="off"
+            autoComplete="off"
           />
           {searchTerm && (
             <button
@@ -97,7 +98,7 @@ export default function SubjectSearchDropdown({ value, onChange }) {
                 </div>
               )}
 
-              {filteredSubjects.length > 0 ? (
+              {filteredSubjects.length > 0 && (
                 filteredSubjects.map((subject, idx) => (
                   <button
                     key={idx}
@@ -107,23 +108,7 @@ export default function SubjectSearchDropdown({ value, onChange }) {
                     {subject}
                   </button>
                 ))
-              ) : recentSubjects.length === 0 && searchTerm.trim() !== "" ? (
-                <div className="px-3 py-2 text-xs text-muted-foreground">
-                  No matches found
-                </div>
-              ) : null}
-
-              {/* Add new subject option */}
-              {searchTerm.trim() !== "" &&
-                !filteredSubjects.includes(searchTerm.trim()) && (
-                  <button
-                    onClick={handleAddNewSubject}
-                    className="w-full text-left px-3 py-2 hover:bg-blue-50 text-sm border-t flex items-center gap-2 text-blue-600"
-                  >
-                    <Plus className="h-3 w-3" />
-                    Add "{searchTerm}"
-                  </button>
-                )}
+              )}
             </div>
           )}
         </div>
