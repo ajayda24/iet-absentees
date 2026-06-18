@@ -17,9 +17,17 @@ export default function StepDepartment() {
   }));
 
 
-  useEffect(() => {
+const prevDepartmentRef = useRef<string | null>(null);
+
+useEffect(() => {
+  if (
+    selectedDepartment &&
+    selectedDepartment !== prevDepartmentRef.current
+  ) {
+    prevDepartmentRef.current = selectedDepartment;
     nextStep();
-  }, [selectedDepartment])
+  }
+}, [selectedDepartment, nextStep]);
   // // Reset flag when returning to this step
   // useEffect(() => {
   //   // Only reset if we're coming back to this step (not leaving it)

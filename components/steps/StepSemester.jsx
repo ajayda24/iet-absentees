@@ -16,9 +16,17 @@ export default function StepSemester() {
     value: s,
   }));
 
-  useEffect(()=>{
+ const prevSemesterRef = useRef<string | null>(null);
+
+useEffect(() => {
+  if (
+    selectedSemester &&
+    selectedSemester !== prevSemesterRef.current
+  ) {
+    prevSemesterRef.current = selectedSemester;
     nextStep();
-  },[selectedSemester])
+  }
+}, [selectedSemester, nextStep]);
 
   // // Reset flag when returning to this step
   // useEffect(() => {
