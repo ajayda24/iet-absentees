@@ -52,7 +52,7 @@ export default function StepWelcome() {
           <Button
             onClick={nextStep}
             size="lg"
-            className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full mt-4 bg-slate-900 hover:bg-slate-950 text-white"
           >
             Mark Attendance
           </Button>
