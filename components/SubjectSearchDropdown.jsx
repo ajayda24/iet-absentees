@@ -69,7 +69,7 @@ export default function SubjectSearchDropdown({ value, onChange }) {
           <Input
             id="subject"
             type="text"
-            placeholder="e.g., Mathematics, Physics"
+            placeholder="e.g., DSA, Java"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -77,6 +77,7 @@ export default function SubjectSearchDropdown({ value, onChange }) {
             }}
             onFocus={() => setIsOpen(true)}
             className="text-sm"
+            autocomplete="off"
           />
           {searchTerm && (
             <button
