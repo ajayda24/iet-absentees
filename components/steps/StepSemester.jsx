@@ -16,14 +16,13 @@ export default function StepSemester() {
     value: s,
   }));
 
- const prevSemesterRef = useRef(null);
+const autoNavigateRef = useRef(false);
+
+
 
 useEffect(() => {
-  if (
-    selectedSemester &&
-    selectedSemester !== prevSemesterRef.current
-  ) {
-    prevSemesterRef.current = selectedSemester;
+  if (selectedSemester && autoNavigateRef.current) {
+    autoNavigateRef.current = false;
     nextStep();
   }
 }, [selectedSemester, nextStep]);
@@ -71,6 +70,7 @@ useEffect(() => {
             options={semesterOptions}
             value={selectedSemester}
             onChange={setSelectedSemester}
+            autoNavigateRef={autoNavigateRef}
           />
         </div>
       </div>

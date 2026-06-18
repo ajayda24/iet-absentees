@@ -17,14 +17,13 @@ export default function StepDepartment() {
   }));
 
 
-const prevDepartmentRef = useRef(null);
+const autoNavigateRef = useRef(false);
+
+
 
 useEffect(() => {
-  if (
-    selectedDepartment &&
-    selectedDepartment !== prevDepartmentRef.current
-  ) {
-    prevDepartmentRef.current = selectedDepartment;
+  if (selectedDepartment && autoNavigateRef.current) {
+    autoNavigateRef.current = false;
     nextStep();
   }
 }, [selectedDepartment, nextStep]);
@@ -71,6 +70,7 @@ useEffect(() => {
             options={departmentOptions}
             value={selectedDepartment}
             onChange={setSelectedDepartment}
+            autoNavigateRef={autoNavigateRef}
           />
         </div>
       </div>

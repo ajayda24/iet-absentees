@@ -1,7 +1,14 @@
 import { cn } from "@/lib/utils";
 import { CircleCheckBig } from "lucide-react";
 
-export default function RadioCardGroup({ title, options, value, onChange }) {
+export default function RadioCardGroup({ title, options, value, onChange,autoNavigateRef }) {
+  const handleChange = (value) => {
+  onChange(value);
+  if(autoNavigateRef){
+
+    autoNavigateRef.current = true;
+  }
+};
   return (
     <div className="flex flex-col gap-2">
       <p className="text-sm font-medium ">{title}</p>
@@ -13,7 +20,7 @@ export default function RadioCardGroup({ title, options, value, onChange }) {
           return (
             <button
               key={opt.value}
-              onClick={() => onChange(opt.value)}
+              onClick={() => handleChange(opt.value)}
               className={cn(
                 "rounded-xl border p-3 text-sm font-medium transition-all flex items-center justify-center gap-2 ",
                 active
