@@ -16,25 +16,29 @@ export default function StepDepartment() {
     value: d,
   }));
 
-  // Reset flag when returning to this step
-  useEffect(() => {
-    // Only reset if we're coming back to this step (not leaving it)
-    if (currentStep === 2 && previousStepRef.current !== 2) {
-      autoNavigateTriggeredRef.current = false;
-    }
-    previousStepRef.current = currentStep;
-  }, [currentStep]);
 
-  // Auto-navigate after selecting department (only if on this step)
   useEffect(() => {
-    if (selectedDepartment && !autoNavigateTriggeredRef.current && currentStep === 2) {
-      const timer = setTimeout(() => {
-        autoNavigateTriggeredRef.current = true;
-        nextStep();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [selectedDepartment, nextStep, currentStep]);
+    nextStep();
+  }, [selectedDepartment])
+  // // Reset flag when returning to this step
+  // useEffect(() => {
+  //   // Only reset if we're coming back to this step (not leaving it)
+  //   if (currentStep === 2 && previousStepRef.current !== 2) {
+  //     autoNavigateTriggeredRef.current = false;
+  //   }
+  //   previousStepRef.current = currentStep;
+  // }, [currentStep]);
+
+  // // Auto-navigate after selecting department (only if on this step)
+  // useEffect(() => {
+  //   if (selectedDepartment && !autoNavigateTriggeredRef.current && currentStep === 2) {
+  //     const timer = setTimeout(() => {
+  //       autoNavigateTriggeredRef.current = true;
+  //       nextStep();
+  //     }, 300);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [selectedDepartment, nextStep, currentStep]);
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">
