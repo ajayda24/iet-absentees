@@ -85,7 +85,8 @@ export default function SubjectSearchDropdown({ value, onChange }) {
   return (
     <div className="relative" ref={dropdownRef}>
       <Label htmlFor="subject" className="text-sm">
-        Subject <span className="text-xs text-muted-foreground">(Optional)</span>
+        Subject
+         {/* <span className="text-xs text-muted-foreground">(Optional)</span> */}
       </Label>
       <div className="flex gap-2 mt-2">
         <div className="relative flex-1">

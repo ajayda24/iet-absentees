@@ -29,7 +29,7 @@ export default function StepHour() {
 
   // Check if total students is saved for this class and navigate accordingly
   useEffect(() => {
-    if (selectedHour && selectedSemester && selectedDepartment) {
+    if (selectedHour && selectedSemester && selectedDepartment && subject) {
       const savedStudentCount = getTotalStudentsForClass(selectedSemester, selectedDepartment);
       if (savedStudentCount) {
         // Total students already saved, skip to Mark Attendance (step 6)
@@ -85,14 +85,14 @@ export default function StepHour() {
         </div>
 
         {/* Skip Button */}
-        <Button
+        {/* <Button
           variant="outline"
           onClick={handleSkip}
           className="w-full"
           size="sm"
         >
           Skip (Optional)
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
