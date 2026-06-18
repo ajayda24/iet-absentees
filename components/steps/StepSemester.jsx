@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useStep } from "@/context/StepContext";
 import RadioCardGroup from "@/components/RadioCardGroup";
 import { Calendar } from "lucide-react";
 
 export default function StepSemester() {
-  const { selectedSemester, setSelectedSemester, nextStep } = useStep();
+  const { selectedSemester, setSelectedSemester, currentStep, nextStep } = useStep();
+  const autoNavigateTriggeredRef = useRef(false);
 
   const semestersArray = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"];
   const semesterOptions = semestersArray.map((s) => ({
@@ -16,13 +17,19 @@ export default function StepSemester() {
 
   // Auto-navigate after selecting semester
   useEffect(() => {
-    if (selectedSemester) {
+    if (selectedSemester && !autoNavigateTriggeredRef.current) {
       const timer = setTimeout(() => {
+        autoNavigateTriggeredRef.current = true;
         nextStep();
       }, 300);
       return () => clearTimeout(timer);
     }
   }, [selectedSemester, nextStep]);
+
+  // Reset the flag when coming back to this step
+  useEffect(() => {
+    autoNavigateTriggeredRef.current = false;
+  }, [currentStep]);
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">

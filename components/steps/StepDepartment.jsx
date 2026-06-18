@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useStep } from "@/context/StepContext";
 import RadioCardGroup from "@/components/RadioCardGroup";
 import { Building2 } from "lucide-react";
 
 export default function StepDepartment() {
-  const { selectedDepartment, setSelectedDepartment, nextStep } = useStep();
+  const { selectedDepartment, setSelectedDepartment, currentStep, nextStep } = useStep();
+  const autoNavigateTriggeredRef = useRef(false);
 
   const departmentsArray = ["IT", "CSE", "EC", "EEE", "ME", "EP", "PT"];
   const departmentOptions = departmentsArray.map((d) => ({
@@ -16,13 +17,19 @@ export default function StepDepartment() {
 
   // Auto-navigate after selecting department
   useEffect(() => {
-    if (selectedDepartment) {
+    if (selectedDepartment && !autoNavigateTriggeredRef.current) {
       const timer = setTimeout(() => {
+        autoNavigateTriggeredRef.current = true;
         nextStep();
       }, 300);
       return () => clearTimeout(timer);
     }
   }, [selectedDepartment, nextStep]);
+
+  // Reset the flag when coming back to this step
+  useEffect(() => {
+    autoNavigateTriggeredRef.current = false;
+  }, [currentStep]);
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">
