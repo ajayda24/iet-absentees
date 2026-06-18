@@ -1,9 +1,14 @@
-import html2pdf from "html2pdf.js";
-import html2canvas from "html2canvas";
 
-export const exportTableToPDF = async (elementId, fileName = "attendance_report") => {
+
+export const exportTableToPDF = async (
+  elementId,
+  fileName = "attendance_report"
+) => {
   try {
+    const html2pdf = (await import("html2pdf.js")).default;
+
     const element = document.getElementById(elementId);
+
     if (!element) {
       throw new Error("Element not found");
     }
@@ -13,18 +18,30 @@ export const exportTableToPDF = async (elementId, fileName = "attendance_report"
       filename: `${fileName}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { orientation: "portrait", unit: "mm", format: "a4" },
+      jsPDF: {
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      },
     };
 
     html2pdf().set(opt).from(element).save();
-    return { success: true, message: "PDF exported successfully" };
+
+    return {
+      success: true,
+      message: "PDF exported successfully",
+    };
   } catch (error) {
-    console.error("PDF export error:", error);
-    return { success: false, message: "Failed to export PDF" };
+    console.error(error);
+    return {
+      success: false,
+      message: "Failed to export PDF",
+    };
   }
 };
 
 export const exportTableAsImage = async (elementId, fileName = "attendance_report") => {
+  const html2canvas = (await import("html2canvas")).default;
   try {
     const element = document.getElementById(elementId);
     if (!element) {
@@ -49,6 +66,7 @@ export const exportTableAsImage = async (elementId, fileName = "attendance_repor
 };
 
 export const copyTableToClipboard = async (elementId) => {
+  const html2canvas = (await import("html2canvas")).default;
   try {
     const element = document.getElementById(elementId);
     if (!element) {
