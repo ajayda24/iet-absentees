@@ -138,25 +138,25 @@ export default function ReportsPage() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gray-50 p-3 md:p-4 lg:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-2 mb-6">
+        <div className="flex items-center gap-2 mb-4 md:mb-6 flex-wrap">
           <Link href="/">
-            <Button variant="ghost" size="sm">
-              <ChevronLeft className="h-4 w-4 mr-2" />
-              Back
+            <Button variant="ghost" size="sm" className="h-8 md:h-10">
+              <ChevronLeft className="h-3 w-3 md:h-4 md:w-4 md:mr-2" />
+              <span className="hidden md:inline">Back</span>
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold">Attendance Reports</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Attendance Reports</h1>
         </div>
 
         {/* Filters */}
-        <Card className="p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="p-4 md:p-6 mb-4 md:mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {/* Class Selection */}
-            <div className="space-y-2">
-              <Label htmlFor="class-select">Class (Semester - Department)</Label>
+            <div className="space-y-1 md:space-y-2">
+              <Label htmlFor="class-select" className="text-xs md:text-sm">Class (Semester - Department)</Label>
               {classes.length === 0 ? (
                 <div className="p-2 text-sm text-muted-foreground bg-gray-50 rounded border">
                   No classes yet
@@ -179,8 +179,8 @@ export default function ReportsPage() {
 
             {/* Subject Filter */}
             {selectedClass && subjectsInClass.length > 0 && (
-              <div className="space-y-2">
-                <Label htmlFor="subject-select">Subject</Label>
+              <div className="space-y-1 md:space-y-2">
+                <Label htmlFor="subject-select" className="text-xs md:text-sm">Subject</Label>
                 <Select value={selectedSubject} onValueChange={setSelectedSubject}>
                   <SelectTrigger id="subject-select">
                     <SelectValue />
@@ -198,8 +198,8 @@ export default function ReportsPage() {
             )}
 
             {/* Start Date */}
-            <div className="space-y-2">
-              <Label htmlFor="start-date">Start Date</Label>
+            <div className="space-y-1 md:space-y-2">
+              <Label htmlFor="start-date" className="text-xs md:text-sm">Start Date</Label>
               <Input
                 id="start-date"
                 type="date"
@@ -209,8 +209,8 @@ export default function ReportsPage() {
             </div>
 
             {/* End Date */}
-            <div className="space-y-2">
-              <Label htmlFor="end-date">End Date</Label>
+            <div className="space-y-1 md:space-y-2">
+              <Label htmlFor="end-date" className="text-xs md:text-sm">End Date</Label>
               <Input
                 id="end-date"
                 type="date"
@@ -230,22 +230,22 @@ export default function ReportsPage() {
 
         {/* Summary Stats */}
         {selectedClass && matrixData && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <Card className="p-4">
-              <p className="text-sm text-muted-foreground">Total Classes</p>
-              <p className="text-2xl font-bold">{totalClasses}</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-4 md:mb-6">
+            <Card className="p-3 md:p-4">
+              <p className="text-xs md:text-sm text-muted-foreground">Total Classes</p>
+              <p className="text-lg md:text-2xl font-bold">{totalClasses}</p>
             </Card>
-            <Card className="p-4">
-              <p className="text-sm text-muted-foreground">Average Attendance</p>
-              <p className="text-2xl font-bold">{avgAttendance}%</p>
+            <Card className="p-3 md:p-4">
+              <p className="text-xs md:text-sm text-muted-foreground">Average Attendance</p>
+              <p className="text-lg md:text-2xl font-bold">{avgAttendance}%</p>
             </Card>
-            <Card className="p-4">
-              <p className="text-sm text-muted-foreground">Total Students</p>
-              <p className="text-2xl font-bold">{matrixData.studentArray.length}</p>
+            <Card className="p-3 md:p-4">
+              <p className="text-xs md:text-sm text-muted-foreground">Total Students</p>
+              <p className="text-lg md:text-2xl font-bold">{matrixData.studentArray.length}</p>
             </Card>
-            <Card className="p-4">
-              <p className="text-sm text-muted-foreground">Date Range</p>
-              <p className="text-sm font-semibold">{formatIndianDate(startDate || getTodayFormatted())} to {formatIndianDate(endDate || getTodayFormatted())}</p>
+            <Card className="p-3 md:p-4">
+              <p className="text-xs md:text-sm text-muted-foreground">Date Range</p>
+              <p className="text-xs md:text-sm font-semibold">{formatIndianDate(startDate || getTodayFormatted())} to {formatIndianDate(endDate || getTodayFormatted())}</p>
             </Card>
           </div>
         )}
@@ -253,34 +253,34 @@ export default function ReportsPage() {
         {/* Attendance Matrix Table */}
         {selectedClass && matrixData && (
           <>
-            <Card className="p-6 mb-6 overflow-x-auto" id="attendance-matrix-table">
-              <table className="w-full border-collapse text-sm">
+            <Card className="p-3 md:p-6 mb-4 md:mb-6 overflow-x-auto" id="attendance-matrix-table">
+              <table className="w-full border-collapse text-xs md:text-sm">
                 <thead>
                   <tr className="border-b-2">
-                    <th className="text-left p-2 font-semibold bg-gray-100 sticky left-0 z-10" style={{ minWidth: "100px" }}>
-                      Roll No.
+                    <th className="text-left p-2 md:p-3 font-semibold bg-gray-100 sticky left-0 z-10" style={{ minWidth: "80px" }}>
+                      <span className="text-xs md:text-sm">Roll No.</span>
                     </th>
                     {matrixData.dateHourArray.map((dateHour) => (
                       <th key={dateHour.date} colSpan={dateHour.hours.length} className="text-center font-semibold bg-blue-50 border-r">
-                        <div className="text-xs font-bold">{formatIndianDate(dateHour.date)}</div>
+                        <div className="text-xs md:text-xs font-bold px-1 md:px-2">{formatIndianDate(dateHour.date)}</div>
                         <div className="flex text-xs text-muted-foreground border-t">
                           {dateHour.hours.map((hour) => (
-                            <div key={hour} className="flex-1 border-r last:border-r-0 py-1">
-                              {hour}
+                            <div key={hour} className="flex-1 border-r last:border-r-0 py-1.5 md:py-2 px-0.5 md:px-1">
+                              <span className="text-xs">{hour}</span>
                             </div>
                           ))}
                         </div>
                       </th>
                     ))}
-                    <th className="text-center p-2 font-semibold bg-green-50 sticky right-0 z-10" style={{ minWidth: "100px" }}>
-                      Attendance %
+                    <th className="text-center p-2 md:p-3 font-semibold bg-green-50 sticky right-0 z-10" style={{ minWidth: "80px" }}>
+                      <span className="text-xs md:text-sm">Attendance %</span>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {matrixData.studentArray.map((student) => (
                     <tr key={student.rollNo} className="border-b hover:bg-gray-50">
-                      <td className="p-2 font-semibold bg-gray-50 sticky left-0 z-10">
+                      <td className="p-2 md:p-3 font-semibold bg-gray-50 sticky left-0 z-10 text-xs md:text-sm">
                         {student.rollNo}
                       </td>
                       {matrixData.dateHourArray.map((dateHour) =>
@@ -288,19 +288,19 @@ export default function ReportsPage() {
                           const cellKey = `${student.rollNo}_${dateHour.date}_${hour}`;
                           const isPresent = matrixData.attendanceMatrix.get(cellKey);
                           return (
-                            <td key={cellKey} className="p-2 text-center border-r">
+                            <td key={cellKey} className="p-2 md:p-3 text-center border-r">
                               {isPresent === undefined ? (
                                 <span className="text-gray-300">-</span>
                               ) : isPresent ? (
-                                <Check className="h-4 w-4 text-green-600 inline" />
+                                <Check className="h-4 w-4 md:h-5 md:w-5 text-green-600 inline" />
                               ) : (
-                                <X className="h-4 w-4 text-red-600 inline" />
+                                <X className="h-4 w-4 md:h-5 md:w-5 text-red-600 inline" />
                               )}
                             </td>
                           );
                         })
                       )}
-                      <td className="p-2 text-center font-semibold bg-green-50 sticky right-0 z-10">
+                      <td className="p-2 md:p-3 text-center font-semibold bg-green-50 sticky right-0 z-10 text-xs md:text-sm">
                         {student.totalClasses > 0
                           ? ((student.presentClasses / student.totalClasses) * 100).toFixed(1)
                           : 0}
@@ -313,18 +313,21 @@ export default function ReportsPage() {
             </Card>
 
             {/* Export Buttons */}
-            <div className="flex gap-3 mb-6">
-              <Button onClick={() => handleExport("pdf")} className="gap-2">
-                <FileDown className="h-4 w-4" />
-                Export PDF
+            <div className="flex flex-wrap gap-2 md:gap-3 mb-4 md:mb-6">
+              <Button onClick={() => handleExport("pdf")} className="gap-1 md:gap-2 text-xs md:text-sm" size="sm">
+                <FileDown className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden md:inline">Export PDF</span>
+                <span className="md:hidden">PDF</span>
               </Button>
-              <Button onClick={() => handleExport("image")} variant="outline" className="gap-2">
-                <Copy className="h-4 w-4" />
-                Export as Image
+              <Button onClick={() => handleExport("image")} variant="outline" className="gap-1 md:gap-2 text-xs md:text-sm" size="sm">
+                <Copy className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden md:inline">Export as Image</span>
+                <span className="md:hidden">Image</span>
               </Button>
-              <Button onClick={() => handleExport("copy")} variant="outline" className="gap-2">
-                <Copy className="h-4 w-4" />
-                Copy Table
+              <Button onClick={() => handleExport("copy")} variant="outline" className="gap-1 md:gap-2 text-xs md:text-sm" size="sm">
+                <Copy className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden md:inline">Copy Table</span>
+                <span className="md:hidden">Copy</span>
               </Button>
             </div>
           </>
