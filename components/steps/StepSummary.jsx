@@ -3,9 +3,10 @@
 import { useStep } from "@/context/StepContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CheckCircle, Copy, Save } from "lucide-react";
+import { CheckCircle, Copy, Save, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 import { useAttendanceStorage } from "@/hooks/useAttendanceStorage";
+import Link from "next/link";
 
 export default function StepSummary() {
   const {
@@ -204,6 +205,14 @@ ${selectedHour ? `${selectedHour} Hour` : "Hour: Not specified"}`;
         <Button onClick={resetForm} variant="outline" className="w-full">
           Start New Report
         </Button>
+
+        {/* View Reports Button */}
+        <Link href="/reports" className="w-full">
+          <Button variant="outline" className="w-full gap-2">
+            <BarChart3 className="h-4 w-4" />
+            View Reports
+          </Button>
+        </Link>
       </div>
     </div>
   );

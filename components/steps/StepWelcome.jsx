@@ -3,6 +3,7 @@
 import { useStep } from "@/context/StepContext";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Github, Linkedin, Zap, BarChart3, Cloud } from "lucide-react";
+import Link from "next/link";
 
 export default function StepWelcome() {
   const { nextStep } = useStep();
@@ -42,13 +43,21 @@ export default function StepWelcome() {
           ))}
         </div>
 
-        {/* CTA Button */}
+        {/* CTA Buttons */}
         <Button
           onClick={nextStep}
           className="w-full py-6 text-base font-medium"
         >
           Get Started
         </Button>
+
+        {/* View Reports Button */}
+        <Link href="/reports" className="w-full">
+          <Button variant="outline" className="w-full gap-2">
+            <BarChart3 className="h-4 w-4" />
+            View Reports
+          </Button>
+        </Link>
 
         {/* Developer Info */}
         <div className="text-center border-t pt-6">

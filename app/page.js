@@ -3,9 +3,6 @@
 import { StepProvider, useStep } from "@/context/StepContext";
 import StepContainer from "@/components/StepContainer";
 import StepNavigation from "@/components/StepNavigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { BarChart3 } from "lucide-react";
 
 import StepWelcome from "@/components/steps/StepWelcome";
 import StepSemester from "@/components/steps/StepSemester";
@@ -36,16 +33,6 @@ function StepContent() {
           <CurrentStep />
         </StepContainer>
       </div>
-      {currentStep === 0 && (
-        <div className="fixed top-4 right-4 z-50">
-          <Link href="/reports">
-            <Button variant="outline" size="sm" className="gap-2">
-              <BarChart3 className="h-4 w-4" />
-              View Reports
-            </Button>
-          </Link>
-        </div>
-      )}
       {currentStep > 0 && <StepNavigation />}
     </>
   );
