@@ -1,12 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
 import { useStep } from "@/context/StepContext";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Users } from "lucide-react";
+import { useAttendanceStorage } from "@/hooks/useAttendanceStorage";
 
 export default function StepStudentCount() {
-  const { totalStudents, setTotalStudents } = useStep();
+  const { totalStudents, setTotalStudents, selectedSemester, selectedDepartment } = useStep();
+  const { saveTotalStudentsForClass } = useAttendanceStorage();
+
+  // Auto-save total students for the class when changed
+  useEffect(() => {
+    if (totalStudents && selectedSemester && selectedDepartment) {
+      saveTotalStudentsForClass(selectedSemester, selectedDepartment, totalStudents);
+    }
+  }, [totalStudents, selectedSemester, selectedDepartment, saveTotalStudentsForClass]);
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">

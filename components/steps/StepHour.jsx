@@ -1,15 +1,18 @@
 "use client";
 
+import { useEffect } from "react";
 import { useStep } from "@/context/StepContext";
 import RadioCardGroup from "@/components/RadioCardGroup";
 import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SubjectSearchDropdown from "@/components/SubjectSearchDropdown";
 import { useRecentSubjects } from "@/hooks/useRecentSubjects";
+import { useAttendanceStorage } from "@/hooks/useAttendanceStorage";
 
 export default function StepHour() {
-  const { selectedHour, setSelectedHour, subject, setSubject, nextStep } = useStep();
+  const { selectedHour, setSelectedHour, subject, setSubject, selectedSemester, selectedDepartment, setTotalStudents, goToStep, nextStep } = useStep();
   const { addRecentSubject } = useRecentSubjects();
+  const { getTotalStudentsForClass } = useAttendanceStorage();
 
   const hoursArray = ["1st", "2nd", "3rd", "4th", "5th", "6th"];
   const hourOptions = hoursArray.map((h) => ({
@@ -23,6 +26,24 @@ export default function StepHour() {
       addRecentSubject(newSubject);
     }
   };
+
+  // Check if total students is saved for this class and navigate accordingly
+  useEffect(() => {
+    if (selectedHour && selectedSemester && selectedDepartment) {
+      const savedStudentCount = getTotalStudentsForClass(selectedSemester, selectedDepartment);
+      if (savedStudentCount) {
+        // Total students already saved, skip to Mark Attendance (step 6)
+        setTotalStudents(savedStudentCount);
+        const timer = setTimeout(() => {
+          goToStep(6);
+        }, 300);
+        return () => clearTimeout(timer);
+      } else {
+        // No saved student count, go to Student Count step (step 5)
+        nextStep();
+      }
+    }
+  }, [selectedHour, selectedSemester, selectedDepartment, getTotalStudentsForClass, setTotalStudents, nextStep, goToStep]);
 
   const handleSkip = () => {
     setSelectedHour("");

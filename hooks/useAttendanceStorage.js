@@ -211,6 +211,31 @@ export function useAttendanceStorage() {
     }
   };
 
+  // Save total students for a class
+  const saveTotalStudentsForClass = (semester, department, totalStudents) => {
+    try {
+      const classId = `${semester}_${department}`;
+      localStorage.setItem(
+        `${classId}_totalStudents`,
+        JSON.stringify(totalStudents)
+      );
+    } catch (error) {
+      console.error("[v0] Error saving total students:", error);
+    }
+  };
+
+  // Get total students for a class
+  const getTotalStudentsForClass = (semester, department) => {
+    try {
+      const classId = `${semester}_${department}`;
+      const stored = localStorage.getItem(`${classId}_totalStudents`);
+      return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+      console.error("[v0] Error getting total students:", error);
+      return null;
+    }
+  };
+
   return {
     allClasses,
     saveAttendanceRecord,
@@ -221,5 +246,7 @@ export function useAttendanceStorage() {
     getAllClasses,
     getSubjectsForClass,
     exportToJSON,
+    saveTotalStudentsForClass,
+    getTotalStudentsForClass,
   };
 }
