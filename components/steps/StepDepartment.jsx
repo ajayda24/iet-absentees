@@ -14,23 +14,23 @@ export default function StepDepartment() {
   }));
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="max-w-sm w-full flex flex-col gap-8">
+    <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">
+      <div className="max-w-sm w-full flex flex-col gap-6">
         {/* Header with Icon */}
-        <div className="flex flex-col items-center gap-4">
-          <div className="p-4 bg-amber-100 rounded-full">
-            <Building2 className="h-8 w-8 text-amber-600" />
+        <div className="flex flex-col items-center gap-3">
+          <div className="p-3 bg-amber-100 rounded-full">
+            <Building2 className="h-6 w-6 text-amber-600" />
           </div>
           <div className="text-center">
-            <h2 className="text-2xl font-semibold mb-2">Select Department</h2>
-            <p className="text-sm text-muted-foreground">
+            <h2 className="text-xl font-semibold mb-1">Select Department</h2>
+            <p className="text-xs text-muted-foreground">
               Choose the department for attendance
             </p>
           </div>
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
+        <div className="bg-white rounded-lg p-4 shadow-sm border">
           <RadioCardGroup
             title=""
             options={departmentOptions}

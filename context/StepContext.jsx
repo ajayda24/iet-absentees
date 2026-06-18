@@ -43,7 +43,7 @@ export function StepProvider({ children }) {
   };
 
   const nextStep = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, 5));
+    setCurrentStep((prev) => Math.min(prev + 1, 6));
   };
 
   const prevStep = () => {
@@ -51,7 +51,7 @@ export function StepProvider({ children }) {
   };
 
   const goToStep = (step) => {
-    setCurrentStep(Math.max(0, Math.min(step, 5)));
+    setCurrentStep(Math.max(0, Math.min(step, 6)));
   };
 
   return (

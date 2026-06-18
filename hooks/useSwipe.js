@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-export function useSwipe(onSwipeLeft, onSwipeRight) {
+export function useSwipe(onSwipeLeft, onSwipeRight, canSwipe = () => true) {
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
   const touchEndX = useRef(0);
@@ -22,6 +22,9 @@ export function useSwipe(onSwipeLeft, onSwipeRight) {
     };
 
     const handleSwipe = () => {
+      // Check if swipe is allowed by validation
+      if (!canSwipe()) return;
+
       const deltaX = touchStartX.current - touchEndX.current;
       const deltaY = Math.abs(touchStartY.current - touchEndY.current);
 
@@ -46,5 +49,5 @@ export function useSwipe(onSwipeLeft, onSwipeRight) {
       element.removeEventListener("touchstart", handleTouchStart);
       element.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [onSwipeLeft, onSwipeRight]);
+  }, [onSwipeLeft, onSwipeRight, canSwipe]);
 }

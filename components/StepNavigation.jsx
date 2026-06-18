@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const STEP_LABELS = [
+  "Welcome",
   "Semester",
   "Department",
   "Hour",
@@ -24,12 +25,12 @@ export default function StepNavigation() {
   } = useStep();
 
   const canGoNext =
-    (currentStep === 0 && selectedSemester) ||
-    (currentStep === 1 && selectedDepartment) ||
-    (currentStep === 2) || // Hour is optional
-    (currentStep === 3 && totalStudents) ||
-    currentStep === 4 ||
-    currentStep === 5;
+    (currentStep === 1 && selectedSemester) ||
+    (currentStep === 2 && selectedDepartment) ||
+    (currentStep === 3) || // Hour is optional
+    (currentStep === 4 && totalStudents) ||
+    currentStep === 5 ||
+    currentStep === 6;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4">
@@ -80,17 +81,17 @@ export default function StepNavigation() {
             Previous
           </Button>
 
-          <div className="text-center text-sm text-muted-foreground flex items-center px-4">
+          <div className="text-center text-xs text-muted-foreground flex items-center px-4">
             {currentStep + 1} / {STEP_LABELS.length}
           </div>
 
           <Button
             onClick={nextStep}
-            disabled={!canGoNext || currentStep === 5}
+            disabled={!canGoNext || currentStep === 6}
             className="flex-1"
           >
-            {currentStep === 5 ? "Done" : "Next"}
-            {currentStep !== 5 && <ChevronRight className="h-4 w-4 ml-2" />}
+            {currentStep === 6 ? "Done" : "Next"}
+            {currentStep !== 6 && <ChevronRight className="h-4 w-4 ml-2" />}
           </Button>
         </div>
       </div>

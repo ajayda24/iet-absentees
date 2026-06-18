@@ -4,6 +4,7 @@ import { StepProvider, useStep } from "@/context/StepContext";
 import StepContainer from "@/components/StepContainer";
 import StepNavigation from "@/components/StepNavigation";
 
+import StepWelcome from "@/components/steps/StepWelcome";
 import StepSemester from "@/components/steps/StepSemester";
 import StepDepartment from "@/components/steps/StepDepartment";
 import StepHour from "@/components/steps/StepHour";
@@ -12,6 +13,7 @@ import StepMarkAttendance from "@/components/steps/StepMarkAttendance";
 import StepSummary from "@/components/steps/StepSummary";
 
 const STEPS = [
+  StepWelcome,
   StepSemester,
   StepDepartment,
   StepHour,
@@ -31,7 +33,7 @@ function StepContent() {
           <CurrentStep />
         </StepContainer>
       </div>
-      <StepNavigation />
+      {currentStep > 0 && <StepNavigation />}
     </>
   );
 }

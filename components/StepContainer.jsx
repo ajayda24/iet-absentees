@@ -22,9 +22,24 @@ const stepVariants = {
 };
 
 export default function StepContainer({ children }) {
-  const { currentStep, nextStep, prevStep } = useStep();
+  const {
+    currentStep,
+    nextStep,
+    prevStep,
+    selectedSemester,
+    selectedDepartment,
+    totalStudents,
+  } = useStep();
 
-  useSwipe(nextStep, prevStep);
+  // Validation logic matching StepNavigation
+  const canNavigate = () => {
+    if (currentStep === 1 && !selectedSemester) return false;
+    if (currentStep === 2 && !selectedDepartment) return false;
+    if (currentStep === 4 && !totalStudents) return false;
+    return true;
+  };
+
+  useSwipe(nextStep, prevStep, canNavigate);
 
   return (
     <div className="relative w-full overflow-hidden">
