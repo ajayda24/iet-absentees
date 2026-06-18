@@ -7,13 +7,24 @@ import { Button } from "@/components/ui/button";
 import { useRecentSubjects } from "@/hooks/useRecentSubjects";
 import { X } from "lucide-react";
 
+// Utility function to convert text to title case
+const toTitleCase = (str) => {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
 export default function SubjectSearchDropdown({ value, onChange }) {
   const { recentSubjects } = useRecentSubjects();
   const { addRecentSubject } = useRecentSubjects();
   const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(value || "");
+  const [searchTerm, setSearchTerm] = useState(toTitleCase(value) || "");
   const [filteredSubjects, setFilteredSubjects] = useState([]);
   const dropdownRef = useRef(null);
+  const isClickingDropdownRef = useRef(false);
 
   // Filter recent subjects based on search term
   useEffect(() => {
@@ -40,16 +51,27 @@ export default function SubjectSearchDropdown({ value, onChange }) {
   }, []);
 
   const handleSelectSubject = (subject) => {
-    onChange(subject);
-    setSearchTerm(subject);
+    const titleCasedSubject = toTitleCase(subject);
+    const lowercaseSubject = subject.toLowerCase();
+    onChange(lowercaseSubject);
+    setSearchTerm(titleCasedSubject);
+    addRecentSubject(lowercaseSubject);
     setIsOpen(false);
+    isClickingDropdownRef.current = false;
   };
 
   const handleBlur = () => {
+    // Prevent blur if we're in the middle of selecting from dropdown
+    if (isClickingDropdownRef.current) {
+      isClickingDropdownRef.current = false;
+      return;
+    }
+
     // Auto-save subject when field loses focus if it's not empty
     if (searchTerm.trim() !== "") {
-      addRecentSubject(searchTerm);
-      onChange(searchTerm);
+      const lowercaseSubject = searchTerm.toLowerCase();
+      addRecentSubject(lowercaseSubject);
+      onChange(lowercaseSubject);
     }
     setIsOpen(false);
   };
@@ -103,10 +125,13 @@ export default function SubjectSearchDropdown({ value, onChange }) {
                 filteredSubjects.map((subject, idx) => (
                   <button
                     key={idx}
+                    onMouseDown={() => {
+                      isClickingDropdownRef.current = true;
+                    }}
                     onClick={() => handleSelectSubject(subject)}
                     className="w-full text-left px-3 py-2 hover:bg-gray-100 text-sm"
                   >
-                    {subject}
+                    {toTitleCase(subject)}
                   </button>
                 ))
               )}
