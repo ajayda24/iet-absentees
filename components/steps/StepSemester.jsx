@@ -8,6 +8,7 @@ import { Calendar } from "lucide-react";
 export default function StepSemester() {
   const { selectedSemester, setSelectedSemester, currentStep, nextStep } = useStep();
   const autoNavigateTriggeredRef = useRef(false);
+  const previousStepRef = useRef(currentStep);
 
   const semestersArray = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"];
   const semesterOptions = semestersArray.map((s) => ({
@@ -15,21 +16,25 @@ export default function StepSemester() {
     value: s,
   }));
 
-  // Auto-navigate after selecting semester
+  // Reset flag when returning to this step
   useEffect(() => {
-    if (selectedSemester && !autoNavigateTriggeredRef.current) {
+    // Only reset if we're coming back to this step (not leaving it)
+    if (currentStep === 1 && previousStepRef.current !== 1) {
+      autoNavigateTriggeredRef.current = false;
+    }
+    previousStepRef.current = currentStep;
+  }, [currentStep]);
+
+  // Auto-navigate after selecting semester (only if on this step)
+  useEffect(() => {
+    if (selectedSemester && !autoNavigateTriggeredRef.current && currentStep === 1) {
       const timer = setTimeout(() => {
         autoNavigateTriggeredRef.current = true;
         nextStep();
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [selectedSemester, nextStep]);
-
-  // Reset the flag when coming back to this step
-  useEffect(() => {
-    autoNavigateTriggeredRef.current = false;
-  }, [currentStep]);
+  }, [selectedSemester, nextStep, currentStep]);
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">
