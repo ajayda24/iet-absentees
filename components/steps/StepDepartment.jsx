@@ -17,7 +17,7 @@ export default function StepDepartment() {
   }));
 
 
-const prevDepartmentRef = useRef<string | null>(null);
+const prevDepartmentRef = useRef(null);
 
 useEffect(() => {
   if (

@@ -16,7 +16,7 @@ export default function StepSemester() {
     value: s,
   }));
 
- const prevSemesterRef = useRef<string | null>(null);
+ const prevSemesterRef = useRef(null);
 
 useEffect(() => {
   if (
