@@ -3,18 +3,22 @@
 import { useStep } from "@/context/StepContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CheckCircle, Copy } from "lucide-react";
+import { CheckCircle, Copy, Save } from "lucide-react";
 import { toast } from "sonner";
+import { useAttendanceStorage } from "@/hooks/useAttendanceStorage";
 
 export default function StepSummary() {
   const {
     selectedSemester,
     selectedDepartment,
     selectedHour,
+    subject,
     totalStudents,
     absentees,
     resetForm,
   } = useStep();
+
+  const { saveAttendanceRecord } = useAttendanceStorage();
 
   const currentDate = new Date();
   const day = String(currentDate.getDate()).padStart(2, "0");
@@ -43,6 +47,29 @@ Absentees: ${absentees.length > 0 ? absentees.join(", ") : "None"}`;
       position: "top-right",
       duration: 2000,
     });
+  };
+
+  const handleSaveAttendance = () => {
+    const result = saveAttendanceRecord({
+      semester: selectedSemester,
+      department: selectedDepartment,
+      hour: selectedHour,
+      subject,
+      totalStudents: parseInt(totalStudents),
+      absentees,
+    });
+
+    if (result.success) {
+      toast.success(result.message, {
+        position: "top-right",
+        duration: 2000,
+      });
+    } else {
+      toast.error(result.message, {
+        position: "top-right",
+        duration: 2000,
+      });
+    }
   };
 
   const presentCount = totalStudents - absentees.length;
@@ -84,6 +111,12 @@ Absentees: ${absentees.length > 0 ? absentees.join(", ") : "None"}`;
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Hour:</span>
                   <span className="font-medium">{selectedHour} Hour</span>
+                </div>
+              )}
+              {subject && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Subject:</span>
+                  <span className="font-medium">{subject}</span>
                 </div>
               )}
             </div>
@@ -141,6 +174,12 @@ Absentees: ${absentees.length > 0 ? absentees.join(", ") : "None"}`;
             </div>
           </Card>
         </div>
+
+        {/* Save Attendance Button */}
+        <Button onClick={handleSaveAttendance} className="w-full bg-emerald-600 hover:bg-emerald-700" size="lg">
+          <Save className="h-4 w-4 mr-2" />
+          Save Attendance Record
+        </Button>
 
         {/* Copy Buttons */}
         <div className="flex flex-col gap-2">

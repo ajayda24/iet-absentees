@@ -10,6 +10,7 @@ export function StepProvider({ children }) {
   const [selectedSemester, setSelectedSemester] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedHour, setSelectedHour] = useState("");
+  const [subject, setSubject] = useState("");
   const [absentees, setAbsentees] = useState([]);
   const [markAllPresentClicked, setMarkAllPresentClicked] = useState(false);
 
@@ -38,6 +39,7 @@ export function StepProvider({ children }) {
     setSelectedSemester("");
     setSelectedDepartment("");
     setSelectedHour("");
+    setSubject("");
     setAbsentees([]);
     setMarkAllPresentClicked(false);
   };
@@ -69,6 +71,8 @@ export function StepProvider({ children }) {
         setSelectedDepartment,
         selectedHour,
         setSelectedHour,
+        subject,
+        setSubject,
         absentees,
         setAbsentees,
         toggleStatus,

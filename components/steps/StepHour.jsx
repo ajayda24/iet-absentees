@@ -4,9 +4,11 @@ import { useStep } from "@/context/StepContext";
 import RadioCardGroup from "@/components/RadioCardGroup";
 import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function StepHour() {
-  const { selectedHour, setSelectedHour, nextStep } = useStep();
+  const { selectedHour, setSelectedHour, subject, setSubject, nextStep } = useStep();
 
   const hoursArray = ["1st", "2nd", "3rd", "4th", "5th", "6th"];
   const hourOptions = hoursArray.map((h) => ({
@@ -36,13 +38,31 @@ export default function StepHour() {
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-lg p-4 shadow-sm border">
-          <RadioCardGroup
-            title=""
-            options={hourOptions}
-            value={selectedHour}
-            onChange={setSelectedHour}
-          />
+        <div className="bg-white rounded-lg p-4 shadow-sm border space-y-4">
+          <div>
+            <p className="text-sm font-medium mb-2">Hour</p>
+            <RadioCardGroup
+              title=""
+              options={hourOptions}
+              value={selectedHour}
+              onChange={setSelectedHour}
+            />
+          </div>
+
+          {/* Subject Field */}
+          <div className="space-y-2 pt-2">
+            <Label htmlFor="subject" className="text-sm">
+              Subject <span className="text-xs text-muted-foreground">(Optional)</span>
+            </Label>
+            <Input
+              id="subject"
+              type="text"
+              placeholder="e.g., Mathematics, Physics"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="text-sm"
+            />
+          </div>
         </div>
 
         {/* Skip Button */}
