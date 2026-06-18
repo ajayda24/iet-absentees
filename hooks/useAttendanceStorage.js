@@ -82,9 +82,18 @@ export function useAttendanceStorage() {
     }
   };
 
-  // Get records for a specific class
-  const getRecordsByClass = (semester, department) => {
-    const classId = `${semester}_${department}`;
+  // Get records for a specific class (accepts either classId directly or semester+department)
+  const getRecordsByClass = (semesterOrClassId, department) => {
+    let classId;
+    
+    if (department) {
+      // Called with two parameters (semester, department)
+      classId = `${semesterOrClassId}_${department}`;
+    } else {
+      // Called with classId directly
+      classId = semesterOrClassId;
+    }
+    
     return allClasses[classId]?.records || [];
   };
 
