@@ -29,12 +29,12 @@ export default function ReportsPage() {
   const records = selectedClass ? getRecordsByClass(selectedClass) : [];
 
   const filteredRecords = useMemo(() => {
+    if (!selectedClass) return [];
+
     let filtered = records;
 
-    if (selectedSubject) {
-      filtered = filtered.filter(
-        (record) => record.subject && record.subject.toLowerCase() === selectedSubject.toLowerCase()
-      );
+    if (selectedSubject && selectedSubject !== "all") {
+      filtered = filtered.filter((r) => r.subject === selectedSubject);
     }
 
     if (startDate) {
@@ -176,7 +176,7 @@ export default function ReportsPage() {
                     <SelectValue placeholder="All subjects" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Subjects</SelectItem>
+                    <SelectItem value="all">All Subjects</SelectItem>
                     {subjectsInClass.map((subject) => (
                       <SelectItem key={subject} value={subject}>
                         {subject}
