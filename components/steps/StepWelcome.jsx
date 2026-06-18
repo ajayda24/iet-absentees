@@ -8,7 +8,7 @@ export default function StepWelcome() {
   const { nextStep } = useStep();
 
   return (
-    <div className="flex flex-col items-center justify-center  p-4 bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-md w-full flex flex-col gap-8">
         {/* Icon */}
         <div className="flex justify-center">

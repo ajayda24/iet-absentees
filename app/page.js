@@ -28,7 +28,7 @@ function StepContent() {
 
   return (
     <>
-      <div className="pb-32">
+      <div className={`${currentStep>0?'pb-32':''}`}>
         <StepContainer>
           <CurrentStep />
         </StepContainer>
