@@ -16,25 +16,29 @@ export default function StepSemester() {
     value: s,
   }));
 
-  // Reset flag when returning to this step
-  useEffect(() => {
-    // Only reset if we're coming back to this step (not leaving it)
-    if (currentStep === 1 && previousStepRef.current !== 1) {
-      autoNavigateTriggeredRef.current = false;
-    }
-    previousStepRef.current = currentStep;
-  }, [currentStep]);
+  useEffect(()=>{
+    nextStep();
+  },[selectedSemester])
 
-  // Auto-navigate after selecting semester (only if on this step)
-  useEffect(() => {
-    if (selectedSemester && !autoNavigateTriggeredRef.current && currentStep === 1) {
-      const timer = setTimeout(() => {
-        autoNavigateTriggeredRef.current = true;
-        nextStep();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [selectedSemester, nextStep, currentStep]);
+  // // Reset flag when returning to this step
+  // useEffect(() => {
+  //   // Only reset if we're coming back to this step (not leaving it)
+  //   if (currentStep === 1 && previousStepRef.current !== 1) {
+  //     autoNavigateTriggeredRef.current = false;
+  //   }
+  //   previousStepRef.current = currentStep;
+  // }, [currentStep]);
+
+  // // Auto-navigate after selecting semester (only if on this step)
+  // useEffect(() => {
+  //   if (selectedSemester && !autoNavigateTriggeredRef.current && currentStep === 1) {
+  //     const timer = setTimeout(() => {
+  //       autoNavigateTriggeredRef.current = true;
+  //       nextStep();
+  //     }, 300);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [selectedSemester, nextStep, currentStep]);
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">
