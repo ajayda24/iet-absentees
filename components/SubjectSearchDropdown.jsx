@@ -49,6 +49,7 @@ export default function SubjectSearchDropdown({ value, onChange }) {
     // Auto-save subject when field loses focus if it's not empty
     if (searchTerm.trim() !== "") {
       addRecentSubject(searchTerm);
+      onChange(searchTerm);
     }
     setIsOpen(false);
   };
