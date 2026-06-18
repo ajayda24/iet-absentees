@@ -35,7 +35,7 @@ export default function StepHour() {
         // Total students already saved, skip to Mark Attendance (step 6)
         setTotalStudents(savedStudentCount);
         const timer = setTimeout(() => {
-          goToStep(6);
+          goToStep(5);
         }, 300);
         return () => clearTimeout(timer);
       } else {
