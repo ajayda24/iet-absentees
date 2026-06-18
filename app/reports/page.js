@@ -47,7 +47,13 @@ export default function ReportsPage() {
       filtered = filtered.filter((record) => new Date(record.date) <= end);
     }
 
-    return filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Add percentage field to each record if not already present
+    const withPercentage = filtered.map((record) => ({
+      ...record,
+      percentage: record.absenteePercentage || (record.totalStudents > 0 ? ((record.absentees.length / record.totalStudents) * 100).toFixed(2) : 0),
+    }));
+
+    return withPercentage.sort((a, b) => new Date(b.date) - new Date(a.date));
   }, [records, selectedSubject, startDate, endDate]);
 
   const subjectsInClass = useMemo(() => {

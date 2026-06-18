@@ -4,17 +4,25 @@ import { useStep } from "@/context/StepContext";
 import RadioCardGroup from "@/components/RadioCardGroup";
 import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import SubjectSearchDropdown from "@/components/SubjectSearchDropdown";
+import { useRecentSubjects } from "@/hooks/useRecentSubjects";
 
 export default function StepHour() {
   const { selectedHour, setSelectedHour, subject, setSubject, nextStep } = useStep();
+  const { addRecentSubject } = useRecentSubjects();
 
   const hoursArray = ["1st", "2nd", "3rd", "4th", "5th", "6th"];
   const hourOptions = hoursArray.map((h) => ({
     label: h,
     value: h,
   }));
+
+  const handleSubjectChange = (newSubject) => {
+    setSubject(newSubject);
+    if (newSubject.trim() !== "") {
+      addRecentSubject(newSubject);
+    }
+  };
 
   const handleSkip = () => {
     setSelectedHour("");
@@ -51,17 +59,7 @@ export default function StepHour() {
 
           {/* Subject Field */}
           <div className="space-y-2 pt-2">
-            <Label htmlFor="subject" className="text-sm">
-              Subject <span className="text-xs text-muted-foreground">(Optional)</span>
-            </Label>
-            <Input
-              id="subject"
-              type="text"
-              placeholder="e.g., Mathematics, Physics"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="text-sm"
-            />
+            <SubjectSearchDropdown value={subject} onChange={handleSubjectChange} />
           </div>
         </div>
 

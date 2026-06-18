@@ -1,17 +1,28 @@
 "use client";
 
+import { useEffect } from "react";
 import { useStep } from "@/context/StepContext";
 import RadioCardGroup from "@/components/RadioCardGroup";
 import { Building2 } from "lucide-react";
 
 export default function StepDepartment() {
-  const { selectedDepartment, setSelectedDepartment } = useStep();
+  const { selectedDepartment, setSelectedDepartment, nextStep } = useStep();
 
   const departmentsArray = ["IT", "CSE", "EC", "EEE", "ME", "EP", "PT"];
   const departmentOptions = departmentsArray.map((d) => ({
     label: d,
     value: d,
   }));
+
+  // Auto-navigate after selecting department
+  useEffect(() => {
+    if (selectedDepartment) {
+      const timer = setTimeout(() => {
+        nextStep();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedDepartment, nextStep]);
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">

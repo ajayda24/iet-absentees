@@ -27,11 +27,16 @@ export default function StepSummary() {
   const formattedDate = `${day}-${month}-${year}`;
 
   const copyText = () => {
-    const textToCopy = `Today's Absentees
+    let textToCopy = `Today's Absentees
 Date: ${formattedDate}
 ${selectedSemester} - ${selectedDepartment}
-${selectedHour ? `${selectedHour} Hour` : "Hour: Not specified"}
-Absentees: ${absentees.length > 0 ? absentees.join(", ") : "None"}`;
+${selectedHour ? `${selectedHour} Hour` : "Hour: Not specified"}`;
+
+    if (subject) {
+      textToCopy += `\nSubject: ${subject}`;
+    }
+
+    textToCopy += `\nAbsentees: ${absentees.length > 0 ? absentees.join(", ") : "None"}`;
 
     navigator.clipboard.writeText(textToCopy);
     toast.success("Copied to clipboard", {
