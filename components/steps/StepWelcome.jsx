@@ -44,7 +44,8 @@ export default function StepWelcome() {
         </div>
 
         {/* CTA Buttons */}
-        <Button
+        <div className="flex flex-col gap-2 items-center">
+            <Button
           onClick={nextStep}
           className="w-full py-6 text-base font-medium"
         >
@@ -58,21 +59,22 @@ export default function StepWelcome() {
             View Reports
           </Button>
         </Link>
+        </div>
+        
 
         {/* Developer Info */}
         <div className="text-center border-t pt-6">
-          <p className="text-xs text-muted-foreground mb-2">Built by</p>
-          <p className="text-sm font-semibold mb-3">Developer Name</p>
+          <p className="text-xs text-muted-foreground mb-2">Built with ❤️ by a fellow student</p>
           <div className="flex gap-3 justify-center">
             <a
-              href="#"
+              href="https://github.com/ajayda24"
               className="inline-flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 transition-colors"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5 text-gray-600" />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/ajaydanieltrevor/"
               className="inline-flex items-center justify-center p-2 rounded-lg hover:bg-gray-100 transition-colors"
               aria-label="LinkedIn"
             >
