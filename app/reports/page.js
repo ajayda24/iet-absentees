@@ -147,24 +147,24 @@ export default function ReportsPage() {
             {/* Class Selection */}
             <div className="space-y-2">
               <Label htmlFor="class-select">Class (Semester - Department)</Label>
-              <Select value={selectedClass} onValueChange={setSelectedClass}>
-                <SelectTrigger id="class-select">
-                  <SelectValue placeholder="Select a class" />
-                </SelectTrigger>
-                <SelectContent>
-                  {classes.length === 0 ? (
-                    <SelectItem value="empty" disabled>
-                      No classes yet
-                    </SelectItem>
-                  ) : (
-                    classes.map((classData) => (
+              {classes.length === 0 ? (
+                <div className="p-2 text-sm text-muted-foreground bg-gray-50 rounded border">
+                  No classes yet
+                </div>
+              ) : (
+                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                  <SelectTrigger id="class-select">
+                    <SelectValue placeholder="Select a class" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {classes.map((classData) => (
                       <SelectItem key={classData.classId} value={classData.classId}>
                         {classData.semester} - {classData.department}
                       </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             </div>
 
             {/* Subject Filter */}
