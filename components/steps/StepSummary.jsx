@@ -7,6 +7,7 @@ import { CheckCircle, Copy, Save, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 import { useAttendanceStorage } from "@/hooks/useAttendanceStorage";
 import Link from "next/link";
+import { toTitleCase } from "@/utils/general";
 
 export default function StepSummary() {
   const {
@@ -28,13 +29,14 @@ export default function StepSummary() {
   const formattedDate = `${day}-${month}-${year}`;
 
   const copyText = () => {
+    let titleSubject = toTitleCase(subject)
     let textToCopy = `Today's Absentees
 Date: ${formattedDate}
 ${selectedSemester} - ${selectedDepartment}
 ${selectedHour ? `${selectedHour} Hour` : "Hour: Not specified"}`;
 
     if (subject) {
-      textToCopy += `\nSubject: ${subject}`;
+      textToCopy += `\nSubject: ${titleSubject}`;
     }
 
     textToCopy += `\nAbsentees: ${absentees.length > 0 ? absentees.join(", ") : "None"}`;
@@ -60,7 +62,7 @@ ${selectedHour ? `${selectedHour} Hour` : "Hour: Not specified"}`;
       semester: selectedSemester,
       department: selectedDepartment,
       hour: selectedHour,
-      subject,
+      subject: subject && toTitleCase(subject),
       totalStudents: parseInt(totalStudents),
       absentees,
     });
@@ -122,7 +124,7 @@ ${selectedHour ? `${selectedHour} Hour` : "Hour: Not specified"}`;
               {subject && (
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subject:</span>
-                  <span className="font-medium">{subject}</span>
+                  <span className="font-medium">{subject && toTitleCase(subject)}</span>
                 </div>
               )}
             </div>
@@ -144,25 +146,22 @@ ${selectedHour ? `${selectedHour} Hour` : "Hour: Not specified"}`;
 
           {/* Absent Info */}
           <Card
-            className={`p-4 ${
-              absentees.length > 0
-                ? "bg-red-50 border-red-200"
-                : "bg-blue-50 border-blue-200"
-            }`}
+            className={`p-4 ${absentees.length > 0
+              ? "bg-red-50 border-red-200"
+              : "bg-blue-50 border-blue-200"
+              }`}
           >
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span
-                  className={`font-medium ${
-                    absentees.length > 0 ? "text-red-700" : "text-blue-700"
-                  }`}
+                  className={`font-medium ${absentees.length > 0 ? "text-red-700" : "text-blue-700"
+                    }`}
                 >
                   Absent:
                 </span>
                 <span
-                  className={`font-bold text-lg ${
-                    absentees.length > 0 ? "text-red-700" : "text-blue-700"
-                  }`}
+                  className={`font-bold text-lg ${absentees.length > 0 ? "text-red-700" : "text-blue-700"
+                    }`}
                 >
                   {absentees.length}
                 </span>

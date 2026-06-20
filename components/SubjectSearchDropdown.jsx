@@ -6,18 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRecentSubjects } from "@/hooks/useRecentSubjects";
 import { X } from "lucide-react";
+import { toTitleCase } from "@/utils/general";
 
 // Utility function to convert text to title case
-const toTitleCase = (str) => {
-  if (!str) return "";
-  return str
-    .toLowerCase()
-    .split(/\s+/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-};
 
-export default function SubjectSearchDropdown({ value, onChange }) {
+
+export default function SubjectSearchDropdown({ value, onChange, nextStep }) {
   const { recentSubjects } = useRecentSubjects();
   const { addRecentSubject } = useRecentSubjects();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,12 +23,12 @@ export default function SubjectSearchDropdown({ value, onChange }) {
   // Filter recent subjects based on search term
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFilteredSubjects(recentSubjects);
+      setFilteredSubjects(recentSubjects.map((s) => toTitleCase(s)));
     } else {
       const filtered = recentSubjects.filter((s) =>
         s.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setFilteredSubjects(filtered);
+      setFilteredSubjects(filtered.map((s) => toTitleCase(s)));
     }
   }, [searchTerm, recentSubjects]);
 
@@ -82,11 +76,22 @@ export default function SubjectSearchDropdown({ value, onChange }) {
     setIsOpen(false);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if (searchTerm.trim() !== "") {
+        const lowercaseSubject = searchTerm.toLowerCase();
+        addRecentSubject(lowercaseSubject);
+        onChange(lowercaseSubject);
+        nextStep();
+      }
+    }
+  };
+
   return (
     <div className="relative" ref={dropdownRef}>
       <Label htmlFor="subject" className="text-sm">
         Subject
-         {/* <span className="text-xs text-muted-foreground">(Optional)</span> */}
+        {/* <span className="text-xs text-muted-foreground">(Optional)</span> */}
       </Label>
       <div className="flex gap-2 mt-2">
         <div className="relative flex-1">
@@ -103,6 +108,7 @@ export default function SubjectSearchDropdown({ value, onChange }) {
             onBlur={handleBlur}
             className="text-sm"
             autoComplete="off"
+            onKeyDown={handleKeyDown}
           />
           {searchTerm && (
             <button

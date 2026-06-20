@@ -8,7 +8,7 @@ import { Users } from "lucide-react";
 import { useAttendanceStorage } from "@/hooks/useAttendanceStorage";
 
 export default function StepStudentCount() {
-  const { totalStudents, setTotalStudents, selectedSemester, selectedDepartment } = useStep();
+  const { totalStudents, setTotalStudents, selectedSemester, selectedDepartment,nextStep  } = useStep();
   const { saveTotalStudentsForClass } = useAttendanceStorage();
 
   // Auto-save total students for the class when changed
@@ -17,6 +17,12 @@ export default function StepStudentCount() {
       saveTotalStudentsForClass(selectedSemester, selectedDepartment, totalStudents);
     }
   }, [totalStudents, selectedSemester, selectedDepartment, saveTotalStudentsForClass]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && event.target.value.trim() !== "") {
+      nextStep();
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">
@@ -49,6 +55,7 @@ export default function StepStudentCount() {
               onChange={(e) => setTotalStudents(e.target.value)}
               placeholder="Enter number"
               className="text-center py-4"
+              onKeyDown={handleKeyDown}
             />
             <p className="text-xs text-muted-foreground mt-1">
               This will generate individual student cards for marking attendance

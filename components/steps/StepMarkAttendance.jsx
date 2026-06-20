@@ -56,8 +56,8 @@ export default function StepMarkAttendance() {
         </div>
 
         {/* Students Grid */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <div className="flex flex-wrap gap-3 justify-center">
+        <div className="bg-white rounded-lg p-2 shadow-sm border">
+          <div className="flex flex-wrap gap-2 justify-center">
             {studentsArray.map((student) => (
               <StudentCard
                 key={student.id}

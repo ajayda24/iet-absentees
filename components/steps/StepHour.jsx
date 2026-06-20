@@ -10,7 +10,7 @@ import { useRecentSubjects } from "@/hooks/useRecentSubjects";
 import { useAttendanceStorage } from "@/hooks/useAttendanceStorage";
 
 export default function StepHour() {
-  const { selectedHour, setSelectedHour, subject, setSubject, selectedSemester, selectedDepartment, setTotalStudents, goToStep, nextStep } = useStep();
+  const { selectedHour, setSelectedHour, subject, setSubject, selectedSemester, selectedDepartment, setTotalStudents, goToStep, nextStep,currentStep } = useStep();
   const { addRecentSubject } = useRecentSubjects();
   const { getTotalStudentsForClass } = useAttendanceStorage();
 
@@ -19,6 +19,8 @@ export default function StepHour() {
     label: h,
     value: h,
   }));
+
+
 
   const handleSubjectChange = (newSubject) => {
     setSubject(newSubject);
@@ -29,13 +31,13 @@ export default function StepHour() {
 
   // Check if total students is saved for this class and navigate accordingly
   useEffect(() => {
-    if (selectedHour && selectedSemester && selectedDepartment && subject) {
+    if (selectedHour && selectedSemester && selectedDepartment && subject && currentStep === 4) {
       const savedStudentCount = getTotalStudentsForClass(selectedSemester, selectedDepartment);
       if (savedStudentCount) {
         // Total students already saved, skip to Mark Attendance (step 6)
         setTotalStudents(savedStudentCount);
         const timer = setTimeout(() => {
-          goToStep(5);
+          goToStep(5); //starting from 0, so step 6 is index 5
         }, 300);
         return () => clearTimeout(timer);
       } else {
@@ -50,6 +52,7 @@ export default function StepHour() {
     nextStep();
   };
 
+  
   return (
     <div className="flex flex-col items-center justify-center pt-12 pb-24 p-4">
       <div className="max-w-sm w-full flex flex-col gap-5">
@@ -80,7 +83,7 @@ export default function StepHour() {
 
           {/* Subject Field */}
           <div className="space-y-2 pt-2">
-            <SubjectSearchDropdown value={subject} onChange={handleSubjectChange} />
+            <SubjectSearchDropdown value={subject} onChange={handleSubjectChange} nextStep={nextStep} />
           </div>
         </div>
 

@@ -35,7 +35,7 @@ export default function StudentCard({
 
   return (
     <Card
-      className={`transition-all duration-150 p-3 max-w-24 w-full flex justify-center items-center ${getStatusColor(
+      className={`transition-all duration-150 p-3 max-w-20 w-full flex justify-center items-center ${getStatusColor(
         status
       )}`}
       onClick={() => toggleStatus(studentId)}
